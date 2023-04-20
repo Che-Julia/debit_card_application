@@ -54,4 +54,18 @@ class ChromeTest {
         assertEquals(expected, actual);
 
     }
+
+    @Test
+    void negativeTest() {
+        driver.get("http://localhost:9999/");
+        List<WebElement> inputs = driver.findElements(By.tagName("input"));
+        inputs.get(0).sendKeys("Ivanov Ivan");
+        inputs.get(1).sendKeys("+70000000000");
+        driver.findElement(By.className("checkbox__box")).click();
+        driver.findElement(By.tagName("button")).click();
+
+        String expected = "Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.";
+        String actual = driver.findElement(By.className("input__sub")).getText().trim();
+        assertEquals(expected, actual);
+    }
 }
