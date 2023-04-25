@@ -71,12 +71,22 @@ class ChromeTest {
     }
 
     @Test
-    void negativeTestEmptyForm() {
+    void negativeTestEmptyNameForm() {
         driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("");
-        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("");
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+79995897433");
         driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
         driver.findElement(By.cssSelector("button.button")).click();
         var actualText = driver.findElement(By.cssSelector("[data-test-id=name].input_invalid .input__sub")).getText().trim();
+        assertEquals("Поле обязательно для заполнения", actualText);
+    }
+
+    @Test
+    void negativeTestBlankFormPhone() {
+        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Иванов-Петров Иван");
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("");
+        driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
+        driver.findElement(By.cssSelector("button.button")).click();
+        var actualText = driver.findElement(By.cssSelector("[data-test-id=phone].input_invalid .input__sub")).getText().trim();
         assertEquals("Поле обязательно для заполнения", actualText);
     }
 
